@@ -1,1 +1,3 @@
-# Adventure_IO
+Adventure_IO
+===
+Compilable for OSX.
