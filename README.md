@@ -1,6 +1,6 @@
 Adventure_IO
 ===
-The copyright belongs to the original authors.
+The copyright belongs to the original authors. See details from [here](http://adventure.sys.t.u-tokyo.ac.jp/jp/)
 ```
 ADVENTURE_IO  Version 1.2
 
