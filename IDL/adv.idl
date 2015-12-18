@@ -1,0 +1,213 @@
+//////////////////////////////////////////////////////////////
+// Copyright (C) 2000,2001,2002,2006
+// Shinobu Yoshimura, University of Tokyo,
+// the Japan Society for the Promotion of Science (JSPS)
+// All Rights Reserved
+//////////////////////////////////////////////////////////////
+
+#pragma prefix "jp.ac.u-tokyo.t.q.adv"
+
+module Adv
+{
+  typedef char      Int8;
+  typedef short     Int16;
+  typedef long      Int32;
+  typedef long long Int64;
+  typedef float     Float32;
+  typedef double    Float64;
+
+  interface SessionManager;
+  interface ClusterManager;
+  interface HostManager;
+
+  interface ProcessFactory;
+  interface DocumentManager;
+  interface Component;
+
+  typedef sequence<Object> ObjectSeq;
+  //typedef sequence<any>    AnySeq;
+  typedef sequence<octet>  OctetSeq;
+  typedef sequence<string> StringSeq;
+
+  typedef sequence<char>   Int8Seq;
+  typedef sequence<short>  Int16Seq;
+  typedef sequence<long>   Int32Seq;
+  typedef sequence<float>  Float32Seq;
+  typedef sequence<double> Float64Seq;
+
+  typedef sequence<HostManager> HostManagerSeq;
+
+  const string HostManagerIORFile = "adv-hostmanager-ior";
+  const string SessionManagerIORFile = "adv-sessionmanager-ior";
+
+  //
+  // System Objects
+  //
+
+  struct Event
+  {
+    Object who;			// who pushed this event
+    string what;		// event id
+    any param;			// option parameter
+  };
+
+  struct HostState
+  {
+    long long availablememory;
+    float     load[3];
+  };
+
+  struct NamedValue
+  {
+    string name;
+    string value;
+  };
+  typedef sequence<NamedValue> NamedValueSeq;
+
+  //
+  // System Managers
+  //
+
+  interface SessionManager
+    {
+      exception NotFound {};
+
+      string         GetUserName();
+      HostManagerSeq GetHostManagers();
+      // return SessionManager's URI
+      string         GetLocation();
+
+      void           ResistComponent  (in Component component);
+
+      StringSeq      GetHTML(in string method,
+			     in string object,
+			     in NamedValueSeq header,
+			     in NamedValueSeq params)
+	raises (NotFound);
+    };
+
+  interface ClusterManager
+    {
+      void           ResistHostManager(in HostManager hostmanager);
+      HostManagerSeq GetHostManagers();
+    };
+
+  interface HostManager
+    {
+      string          GetHostName        ();
+      string          GetHostIP          ();
+      HostState       GetHostState       ();
+      ProcessFactory  GetProcessFactory  ();
+      DocumentManager GetDocumentManager ();
+    };
+
+  //
+  // Logical Interfaces
+  //
+
+  interface DocumentManager
+    {
+      exception CannotFind {};
+
+      // export
+      string    Export            (in string locator);
+      string    Unexport          (in string locator);
+
+      // get expoted list
+      StringSeq GetList           ();
+
+      string    QueryDocumentID   (in string id);
+      string    QueryLocator      (in string locator);
+    };
+
+  interface ProcessFactory
+    {
+      void Execute(in string modulepath);
+    };
+
+  interface Component
+    {
+      // name of the component
+      string GetName();
+
+      // request Component to be deactivated
+      void Deactivate();
+
+      // connect observer component which observes this component
+      void ConnectObserver  (in Component obs);
+
+      // event is pushed
+      void Pushed           (in Event event);
+      
+      // get UI HTML
+      StringSeq      GetHTML(in string method,
+			     in NamedValueSeq header,
+			     in NamedValueSeq params);
+    };
+};
+
+module Adv
+{
+  //
+  // DocAccessor
+  //
+  // * supplies primitive functions for AdvNDocument
+  // 
+  interface DocAccessor
+    {
+      string  GetDocumentID      ();
+
+      // property
+      boolean GetNthProperty     (in long n, out string key, out string val);
+      boolean GetProperty        (in string key, out string val);
+      void    SetProperty        (in string key, in string val);
+      void    UnsetNthProperty   (in long n);
+
+      // content
+      long GetSize();
+      long GetOctet     (in Int64 offset, in Int32 length, out OctetSeq buffer);
+      long SetOctet     (in Int64 offset, in OctetSeq buffer);
+    };
+
+  //
+  // DocStorage
+  //
+  // * Holds on-memory NetworkDocumetns
+  // * Sopports remote on-memory document creation
+  // * The relation between DocStorage and DocAccessor is same as DocFile and Document
+  // 
+  interface DocStorage
+    {
+      exception NoSuchDocument  {};
+      exception NotEnoughMemory {};
+
+      // the number of containing DocAccessor
+      long        GetNumDocuments     ();
+
+      // clear all document
+      void        Clear               ();
+
+      // create and return DocAccessor
+      DocAccessor Create              (in string documentid)
+	raises(NotEnoughMemory);
+
+      // return n-th DocAccessor
+      DocAccessor OpenNth             (in long n)
+	raises(NoSuchDocument);
+
+      // open the document with certain DocumentID
+      DocAccessor OpenByDocumentID    (in string documentid)
+	raises(NoSuchDocument);
+      
+      // open the document that matches specified properties
+      DocAccessor OpenByProperty      (in DocAccessor prev, in StringSeq properties)
+	raises(NoSuchDocument);
+    };
+};
+
+module Adv
+{
+  interface Container : Adv::Component
+    {
+    };
+};

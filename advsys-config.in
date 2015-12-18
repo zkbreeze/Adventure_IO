@@ -1,0 +1,113 @@
+#! /bin/sh -f
+########################################################################
+# Copyright (C) 2000,2001,2002 Shinobu Yoshimura, University of Tokyo, #
+# the Japan Society for the Promotion of Science (JSPS)                #
+# All Rights Reserved                                                  #
+########################################################################
+
+dir=`dirname $0`
+cmd=`basename $0`
+cd ${dir}
+dir=`pwd`
+
+if test -f advsys-config.h; then
+  installed="no"
+else
+  installed="yes"
+  dir=`echo $dir | sed 's/\/bin$//'`
+fi
+
+# if test $# -eq 0; then
+#   cat <<EOF
+# Usage: ${cmd} [OPTIONS] [LIBS]
+# Options:
+#        [--cflags]
+#        [--libs]
+# Libs:
+#        base
+#        fileio
+#        docio
+#        frame
+# EOF
+# fi
+
+if test $# -eq 0; then
+  cat <<EOF
+Usage: ${cmd} [OPTIONS] [LIBS]
+Options:
+       [--cflags]
+       [--libs]
+Libs:
+       base
+       fileio
+       docio
+EOF
+fi
+
+base_libs=no
+fileio_libs=no
+docio_libs=no
+frame_libs=no
+
+while test $# -gt 0; do
+  case $1 in
+    --version)
+      if test "${installed}" = "no"; then
+        echo AdvIO @VERSION@ '(not installed)'
+      else
+        echo AdvIO @VERSION@
+      fi
+      ;;
+    --cflags)
+      echo_cflags=yes
+      ;;
+    --libs)
+      echo_libs=yes
+      ;;
+    base)
+      base_lib=yes
+      ;;
+    fileio)
+      base_lib=yes
+      fileio_lib=yes
+      ;;
+    docio)
+      base_lib=yes
+      fileio_lib=yes
+      docio_lib=yes
+      ;;
+    frame)
+      base_lib=yes
+      fileio_lib=yes
+      docio_lib=yes
+      frame_lib=yes
+      ;;
+  esac
+  shift
+done
+
+if test "$echo_cflags" = "yes"; then
+  cflags="-I${dir}/include "
+  if test "${docio_lib}" = "yes"; then
+    cflags="${cflags} @ADV_DOCIO_CFLAGS@"
+  fi
+  echo  "${cflags} "
+fi
+
+if test "$echo_libs" = "yes"; then
+  libs="-L${dir}/lib"
+  if test "${frame_lib}" = "yes"; then
+    libs="${libs} @ADV_FRAME_ILIBS@"
+  fi
+  if test "${docio_lib}" = "yes"; then
+    libs="${libs} @ADV_DOCIO_ILIBS@"
+  fi
+  if test "${fileio_lib}" = "yes"; then
+    libs="${libs} @ADV_FILEIO_ILIBS@"
+  fi
+  if test "${base_lib}" = "yes"; then
+    libs="${libs} @ADV_BASE_ILIBS@"
+  fi
+  echo "${libs} "
+fi
+# echo

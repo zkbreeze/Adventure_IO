@@ -1,0 +1,90 @@
+########################################################################
+# ADVENTURE_IO  Version 1.2                                            #
+#                                                                      #
+# Copyright (C) 2000,2001,2002,2006                                    #
+# Shinobu Yoshimura, University of Tokyo,                              #
+# the Japan Society for the Promotion of Science (JSPS)                #
+# All Rights Reserved                                                  #
+########################################################################
+
+○ パッケージ内容
+
+  本パッケージ(ADVENTURE_IO)はADVENTURE Systemの各モジュールが
+  使用するIOライブラリを提供するものである。
+
+
+○ ドキュメント
+
+  このREAMDEファイルと同等の簡単な説明がdoc/manual-jp.pdfにある。
+  また、ライブラリ関数のリファレンスマニュアルがdoc/AdvDocument.pdfにある。
+
+  なお、これらのドキュメントは下記 make install により、<install_dir>/doc/AdvIO
+  にインストールされる。
+
+
+○ インストール方法
+
+  tarファイルのパッケージを展開し、トップディレクトリ(AdvIO-<Version名>)へ
+  移った後、以下のコマンドを実行する。
+
+  % ./configure
+  % make
+  % make install
+
+  デフォルトでのインストール先は $HOME/ADVENTURE である。
+  インストール先を指定する場合は、configure 時にオプション 
+   --prefix=<install_dir> にて指定する。
+
+  例えば
+
+  % ./configure --prefix=/usr/local
+
+  とすれば make install 時に /usr/local 以下にインストールされる。
+
+○ configureオプション
+
+  configureスクリプトにはいくつかのオプションがある。
+  以下のコマンドでその一覧が表示される。
+
+  % ./configure --help
+
+○ 使用方法
+
+  ヘッダファイル、ライブラリはそれぞれ以下のディレクトリにインストールされる。
+
+  <install_dir>/inclue/Adv
+  <install_dir>/lib
+
+  AdvIO を使用するプログラムをコンパイルする場合、
+  インクルードパス、ライブラリパスとして以下のように指定する。
+
+  -I<install_dir>/include -L<install_dir>/lib
+
+  プログラム中、及びリンク時には以下のように利用することを想定している。
+
+  #include <Adv/AdvDocument.h>
+  -lAdvDocIO -lAdvFileIO -lAdvBase
+
+  これらのオプションは、 <install_dir>/bin にインストールされる advsys-config
+  というスクリプトを用いることで取得することが出来る。
+
+  % advsys-config --cflags
+  を実行すると、適切なインクルードパス(-I)が出力される。
+
+  % advsys-config --libs <category>
+  を実行すると、適切なライブラリパス(-L, -l)が出力される。
+
+  categoryには現在以下の3種類がある。
+    base
+    fileio
+    docio
+
+  このadvsys-configを使えば、例えば以下のように指定してコンパイルできる。
+
+  % cc prog.c `advsys-config --cflags --libs docio` ...
+
+○ その他
+
+  Utilsにはいくつかの有用なツールが含まれている。
+  これらは make install にて <install_dir>/bin にインストールされる。
+  

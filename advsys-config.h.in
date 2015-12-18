@@ -1,0 +1,98 @@
+/* advsys-config.h.in.  Generated automatically from configure.in by autoheader.  */
+
+#ifndef _advsys_config_h_included_
+#define _advsys_config_h_included_
+
+
+/* Define to empty if the keyword does not work.  */
+#undef const
+
+/* Define to `long' if <sys/types.h> doesn't define.  */
+#undef off_t
+
+/* Define to `unsigned' if <sys/types.h> doesn't define.  */
+#undef size_t
+
+/* Define if you have the ANSI C header files.  */
+#undef STDC_HEADERS
+
+/* Define if your processor stores words with the most significant
+   byte first (like Motorola and SPARC, unlike Intel and VAX).  */
+#undef WORDS_BIGENDIAN
+
+#undef MAJOR_VERSION
+#undef MINOR_VERSION
+#undef DEBUG
+#undef DEBUG_MEMSTAT
+#undef HAVE_CXX
+#undef CXX_HAVE_EXCEPTION
+#undef CXX_HAVE_NAMESPACE
+#undef HAVE_SYSTYPES_H
+#undef HAVE_SYSTYPE_INT8
+#undef HAVE_SYSTYPE_UINT8
+#undef HAVE_SYSTYPE_INT16
+#undef HAVE_SYSTYPE_UINT16
+#undef HAVE_SYSTYPE_INT32
+#undef HAVE_SYSTYPE_UINT32
+#undef HAVE_SYSTYPE_INT64
+#undef HAVE_SYSTYPE_UINT64
+#undef HAVE_SYSTYPE_FLOAT32
+#undef HAVE_SYSTYPE_FLOAT64
+#undef HAVE_SYSTYPE_FLOAT128
+
+#undef HAVE_MPI
+#undef socklen_t
+#undef USE_ZLIB
+
+#undef HAVE_GTK
+#undef HAVE_MICO
+#undef HAVE_MICO_2_3_X
+#undef HAVE_ORBIT
+#undef HAVE_CURSES
+#undef HAVE_ORB
+
+#undef HAVE_FUNC_SNPRINTF
+#undef HAVE_FUNC_REALPATH
+
+#undef MACHINE_SR
+
+/* Define if <stdarg.h> defines va_copy. */
+#undef HAVE_VA_COPY
+
+/* Define if <stdarg.h> defines __va_copy. */
+#undef HAVE___VA_COPY
+
+/* The number of bytes in a bool.  */
+#undef SIZEOF_BOOL
+
+/* The number of bytes in a double.  */
+#undef SIZEOF_DOUBLE
+
+/* The number of bytes in a float.  */
+#undef SIZEOF_FLOAT
+
+/* The number of bytes in a int.  */
+#undef SIZEOF_INT
+
+/* The number of bytes in a long.  */
+#undef SIZEOF_LONG
+
+/* The number of bytes in a long double.  */
+#undef SIZEOF_LONG_DOUBLE
+
+/* The number of bytes in a long long.  */
+#undef SIZEOF_LONG_LONG
+
+/* The number of bytes in a short.  */
+#undef SIZEOF_SHORT
+
+/* The number of bytes in a size_t.  */
+#undef SIZEOF_SIZE_T
+
+/* Name of package */
+#undef PACKAGE
+
+/* Version number of package */
+#undef VERSION
+
+#endif  /*  _advsys_config_h_included_ */

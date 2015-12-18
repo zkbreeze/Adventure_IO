@@ -1,0 +1,107 @@
+################################################################
+#ADVENTURE_IO  Version 1.2
+#
+#Copyright (C) 2000,2001,2002,2006 Shinobu Yoshimura, University of Tokyo,
+#the Japan Society for the Promotion of Science (JSPS)
+#All Rights Reserved
+################################################################
+
+ 
+----------------------------------------------------------------
+ADVENTURE_IO
+----------------------------------------------------------------
+ADVENTURE_IO is a common input/output library, which is used by 
+other modules of the ADVENTURE System.
+
+
+----------------------------------------------------------------
+DOCUMENTATION
+----------------------------------------------------------------
+The necessary information about program operation and handling 
+can be found in the file "doc/manual.pdf", and the reference 
+manual of library functions is in "doc/AdvDocument.pdf".
+
+The manuals will be installed into <install_dir>/doc/AdvIO 
+by "make install", see below.
+
+----------------------------------------------------------------
+INSTALLATION
+----------------------------------------------------------------
+The following commands should be executed, after extraction of 
+the package tar file and moving to a top directory 
+"AdvIO-<Version name>". 
+
+  % ./configure
+  % make
+  % make install
+
+The default install directory is $HOME/ADVENTURE. 
+It can be changed at the ./configure command with the option 
+--prefix=<install_dir>. 
+
+For example, 
+
+  % ./configure --prefix=/usr/local
+
+will install files into /usr/local at "make install".
+
+----------------------------------------------------------------
+CONFIGURATION OPTIONS
+----------------------------------------------------------------
+There are some options in configuration script. 
+The list can be displayed by the following command:
+
+  % ./configure --help
+
+
+----------------------------------------------------------------
+USAGE
+----------------------------------------------------------------
+Header files and libraries will be installed in:
+  
+  <install_dir>/inclue/Adv
+  <install_dir>/lib
+
+
+When you compile a program which uses AdvIO, 
+an include path and a library path should be specified:
+
+  -I<install_dir>/include -L<install_dir>/lib
+
+
+In the program and links, the following usage is assumed. 
+
+  #include <Adv/AdvDocument.h>
+  -lAdvDocIO -lAdvFileIO -lAdvBase
+
+
+ The abobe options can be obtained easily by using a script "advsys-config",
+ which will be installed in <install_dir>/bin. 
+ The execution outputs a suitable include path (-I). 
+
+  % advsys-config --cflags
+  
+
+Execution of the following command outputs a suitable library 
+path (-L and -l):
+
+  % advsys-config --libs <category>
+
+Where the category can be selected from:
+
+  base
+  fileio
+  docio
+
+
+Your program can be compiled in the following way using "advsys-config". 
+For example:
+
+  % cc prog.c `advsys-config --cflags --libs docio` ...
+
+
+----------------------------------------------------------------
+OTHER INFORMATION
+----------------------------------------------------------------
+Some useful tools are contained in the directory "Utils".
+They will be installed into <install_dir>/bin. 
