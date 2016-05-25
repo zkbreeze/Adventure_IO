@@ -23,39 +23,42 @@ All Rights Reserved
   boolean type
   ============================================================*/
 
-#ifdef __cplusplus
-/*---------- C++ ----------*/
+// #ifdef __cplusplus
+// /*---------- C++ ----------*/
 
-#ifndef HAVE_CXX
-#error  c++ support is disabled. Please recompile AdvIO!!
-#endif
+// #ifndef HAVE_CXX
+// #error  c++ support is disabled. Please recompile AdvIO!!
+// #endif
 
-#if SIZEOF_BOOL != 0
+// #if SIZEOF_BOOL != 0
 
-/* use C++-builtin boolean (do nothing) */
+// /* use C++-builtin boolean (do nothing) */
 
-#elif USE_STL
+// #elif USE_STL
 
-/* use stl's boolean */
-#include <stl.h>
+// /* use stl's boolean */
+// #include <stl.h>
 
-#else
+// #else
 
-/* use own boolean */
-typedef int bool;
-const bool false = 0;
-const bool true = !false;
+// /* use own boolean */
+// typedef int bool_new;
+// const bool_new false = 0;
+// const bool_new true = !false;
 
-#endif
+// #endif
 
-#else
-/*---------- C ----------*/
+// #else
+// /*---------- C ----------*/
 
-typedef int bool;
+// typedef int bool_new;
+// #define false 0
+// #define true 1
+
+// #endif /* __cplusplus */
+
 #define false 0
 #define true 1
-
-#endif /* __cplusplus */
 
 /*============================================================
   bitlength specified integer
